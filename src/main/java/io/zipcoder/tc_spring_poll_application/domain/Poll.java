@@ -7,7 +7,7 @@ import java.util.Set;
 public class Poll {
     private @Id @GeneratedValue @Column(name = "POLL_ID") Long id;
     private @Column(name = "QUESTION") String question;
-    private @OneToMany(cascade = CascadeType.ALL) @JoinColumn(name = "POLL_ID") @OrderBy Set<Option> optionSet;
+    private @OneToMany(cascade = CascadeType.ALL) @JoinColumn(name = "POLL_ID") @OrderBy Set<Option> options;
 
     public Long getId() {
         return id;
@@ -25,11 +25,11 @@ public class Poll {
         this.question = question;
     }
 
-    public Set<Option> getOptionSet() {
-        return optionSet;
+    public Set<Option> getOptions() {
+        return options;
     }
 
-    public void setOptionSet(Set<Option> optionSet) {
-        this.optionSet = optionSet;
+    public void setOptionSet(Set<Option> options) {
+        this.options = options;
     }
 }
