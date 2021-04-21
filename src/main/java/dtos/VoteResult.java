@@ -21,4 +21,8 @@ public class VoteResult {
     public void setResults(Collection<OptionCount> results) {
         this.results = results;
     }
+
+    public void incrementTotal() {
+        totalVotes++;
+    }
 }
