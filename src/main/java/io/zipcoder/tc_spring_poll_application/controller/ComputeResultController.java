@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 @RestController
 public class ComputeResultController {
-
     private final VoteRepository voteRepository;
 
     @Autowired
@@ -35,25 +35,31 @@ public class ComputeResultController {
         for (Vote vote : allVotes) {
             //sets voteResult total
             voteResult.incrementTotal();
-            //if empty, add a new one
+        }
+        //TotalVotes works
+
+        //Keep for now
+        for (Vote vote : allVotes) {
             if (list.isEmpty()) {
-                list.add(new OptionCount(vote.getId(), 1));
-                break;
+                OptionCount random = new OptionCount(vote.getOption().getId(), 0);
+                list.add(random);
             }
-            boolean listContains = false;
-            //false if list doesn't contain optionId
-            for (OptionCount oc : voteResult.getResults()) {
-                //if it does, increase the count, set to true
-                if (vote.getOption().getId().equals(oc.getOptionId())) {
+            Long temp = vote.getOption().getId();
+            boolean present = true;
+            for (OptionCount oc : list) {
+                present = false;
+                if (oc.getOptionId().equals(temp)) {
                     oc.increaseCount();
-                    listContains = true;
+                    present = true;
                 }
             }
-            //if list didn't contain, add new OptionCount
-            if (!listContains) {
-                list.add(new OptionCount(vote.getId(), 1));
+            if (!present) {
+                OptionCount anotherOne = new OptionCount(vote.getOption().getId(), 0);
+                list.add(anotherOne);
+                anotherOne.increaseCount();
             }
         }
+
         voteResult.setResults(list);
         return new ResponseEntity<VoteResult>(voteResult, HttpStatus.OK);
     }

@@ -23,6 +23,6 @@ public class VoteResult {
     }
 
     public void incrementTotal() {
-        totalVotes++;
+        this.totalVotes++;
     }
 }
